@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { courseController } from './course.controller';
 import { authMiddleware, authorize } from '../shared/middlewares/auth.middleware';
+import { UserRole } from '@prisma/client';
 
 const courseRouter = Router();
 
@@ -12,8 +13,8 @@ courseRouter.get('/:id', courseController.findOne);
 courseRouter.use(authMiddleware);
 
 // Routes with role-based authorization
-courseRouter.post('/', authorize(['ADMIN', 'COACH']), courseController.create);
-courseRouter.put('/:id', authorize(['ADMIN', 'COACH']), courseController.update);
-courseRouter.delete('/:id', authorize(['ADMIN', 'COACH']), courseController.delete);
+courseRouter.post('/', authorize([UserRole.ADMIN, UserRole.COACH]), courseController.create);
+courseRouter.put('/:id', authorize([UserRole.ADMIN, UserRole.COACH]), courseController.update);
+courseRouter.delete('/:id', authorize([UserRole.ADMIN, UserRole.COACH]), courseController.delete);
 
 export default courseRouter;

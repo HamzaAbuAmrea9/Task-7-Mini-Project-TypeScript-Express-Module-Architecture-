@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { CustomError } from '../errors/custom-error';
 import { JwtPayload } from '../types/express';
+import { UserRole } from '@prisma/client';
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
@@ -20,10 +21,6 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     return next(new CustomError(401, 'Unauthorized: Invalid token'));
   }
 };
-
-
-import { UserRole } from '../../users/user.entity';
-
 
 export const authorize = (allowedRoles: UserRole[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
