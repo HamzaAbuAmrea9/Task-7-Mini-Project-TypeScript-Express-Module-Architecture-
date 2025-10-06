@@ -1,6 +1,6 @@
-import { PrismaRepository } from '../shared/repositories/prisma.repository';
-import { Course } from './course.entity';
-import { prisma } from '../shared/database/prisma';
+import { PrismaRepository } from "../shared/repositories/prisma.repository";
+import { Course } from "./course.entity";
+import { prisma } from "../shared/database/prisma";
 
 export class CourseRepository extends PrismaRepository<Course> {
   protected model = prisma.course;

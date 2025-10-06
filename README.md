@@ -28,12 +28,14 @@ This project is a RESTful API built with Express.js, TypeScript, and Prisma ORM.
 ## Setup and Installation
 
 ### 1. Clone the repository
+
 ```bash
 git clone <your-repository-url>
 cd express-generic-repo-api
 ```
 
 ### 2. Install dependencies
+
 ```bash
 npm install
 ```
@@ -41,13 +43,16 @@ npm install
 ### 3. Database Setup
 
 #### MySQL Database Setup
+
 1. Install MySQL on your system
 2. Create a new database:
+
 ```sql
 CREATE DATABASE express_generic_repo_api;
 ```
 
 3. Create a MySQL user (optional but recommended):
+
 ```sql
 CREATE USER 'apiuser'@'localhost' IDENTIFIED BY 'your_password';
 GRANT ALL PRIVILEGES ON express_generic_repo_api.* TO 'apiuser'@'localhost';
@@ -62,7 +67,7 @@ Create a `.env` file in the root of the project:
 # Server Configuration
 PORT=3001
 
-# JWT Configuration  
+# JWT Configuration
 JWT_SECRET=your-super-secret-and-long-key-that-is-hard-to-guess
 
 # Database Configuration
@@ -70,7 +75,8 @@ JWT_SECRET=your-super-secret-and-long-key-that-is-hard-to-guess
 DATABASE_URL="mysql://root:password@localhost:3306/express_generic_repo_api"
 ```
 
-**Important**: 
+**Important**:
+
 - Replace `root:password` with your MySQL username and password
 - Update the database name if you used a different name
 - Make sure the JWT_SECRET is a long, random string
@@ -106,35 +112,36 @@ Visit `http://localhost:3001/health` to check if the database connection is work
 
 After seeding, you can use these accounts for testing:
 
-| Role    | Email            | Password   |
-|---------|------------------|------------|
-| ADMIN   | admin@no.com     | admin123   |
-| COACH   | coach@no.com     | coach123   |
-| STUDENT | student@no.com   | student123 |
+| Role    | Email          | Password   |
+| ------- | -------------- | ---------- |
+| ADMIN   | admin@no.com   | admin123   |
+| COACH   | coach@no.com   | coach123   |
+| STUDENT | student@no.com | student123 |
 
 ---
 
 ## API Endpoints
 
-| Method | Endpoint              | Description                                | Access       |
-| :----- | :-------------------- | :----------------------------------------- | :----------- |
-| `GET`  | `/health`            | Check API and database health              | Public       |
-| `POST` | `/auth/register`      | Register a new user (defaults to STUDENT). | Public       |
-| `POST` | `/auth/login`         | Log in a user and receive a JWT.           | Public       |
-| `GET`  | `/users/me`           | Get the profile of the current user.       | Authenticated |
-| `PUT`  | `/users/me`           | Update the profile of the current user.    | Authenticated |
-| `POST` | `/users/coach`        | Create a new user with the COACH role.     | ADMIN Only   |
-| `GET`  | `/courses`            | Get a list of all courses.                 | Public       |
-| `GET`  | `/courses/:id`        | Get a single course by its ID.             | Public       |
-| `POST` | `/courses`            | Create a new course.                       | ADMIN, COACH |
-| `PUT`  | `/courses/:id`        | Update a course.                           | ADMIN, Creator |
-| `DELETE`| `/courses/:id`        | Delete a course.                           | ADMIN, Creator |
+| Method   | Endpoint         | Description                                | Access         |
+| :------- | :--------------- | :----------------------------------------- | :------------- |
+| `GET`    | `/health`        | Check API and database health              | Public         |
+| `POST`   | `/auth/register` | Register a new user (defaults to STUDENT). | Public         |
+| `POST`   | `/auth/login`    | Log in a user and receive a JWT.           | Public         |
+| `GET`    | `/users/me`      | Get the profile of the current user.       | Authenticated  |
+| `PUT`    | `/users/me`      | Update the profile of the current user.    | Authenticated  |
+| `POST`   | `/users/coach`   | Create a new user with the COACH role.     | ADMIN Only     |
+| `GET`    | `/courses`       | Get a list of all courses.                 | Public         |
+| `GET`    | `/courses/:id`   | Get a single course by its ID.             | Public         |
+| `POST`   | `/courses`       | Create a new course.                       | ADMIN, COACH   |
+| `PUT`    | `/courses/:id`   | Update a course.                           | ADMIN, Creator |
+| `DELETE` | `/courses/:id`   | Delete a course.                           | ADMIN, Creator |
 
 ---
 
 ## Available Scripts
 
 ### Development
+
 ```bash
 npm run dev           # Start development server with hot reload
 npm run build         # Build TypeScript to JavaScript
@@ -142,6 +149,7 @@ npm start            # Start production server
 ```
 
 ### Database Management
+
 ```bash
 npm run db:generate       # Generate Prisma client
 npm run db:push          # Push schema changes to database (development)

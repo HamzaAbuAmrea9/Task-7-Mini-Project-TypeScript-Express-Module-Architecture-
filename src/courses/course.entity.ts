@@ -1,4 +1,4 @@
-import { BaseEntity } from '../shared/repositories/prisma.repository';
+import { BaseEntity } from "../shared/repositories/prisma.repository";
 
 export interface Course extends BaseEntity {
   title: string;

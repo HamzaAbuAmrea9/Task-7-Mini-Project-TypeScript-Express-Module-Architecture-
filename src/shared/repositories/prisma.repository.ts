@@ -1,4 +1,4 @@
-import { prisma } from '../database/prisma';
+import { prisma } from "../database/prisma";
 
 // Base interface for entities (matches Prisma's generated types)
 export interface BaseEntity {
@@ -24,14 +24,17 @@ export abstract class PrismaRepository<T extends BaseEntity> {
   }
 
   // Create a new item
-  async create(data: Omit<T, 'id' | 'createdAt' | 'updatedAt'>): Promise<T> {
+  async create(data: Omit<T, "id" | "createdAt" | "updatedAt">): Promise<T> {
     return await this.model.create({
       data,
     });
   }
 
   // Update an existing item by its ID
-  async update(id: string, data: Partial<Omit<T, 'id' | 'createdAt'>>): Promise<T | null> {
+  async update(
+    id: string,
+    data: Partial<Omit<T, "id" | "createdAt">>
+  ): Promise<T | null> {
     try {
       return await this.model.update({
         where: { id },

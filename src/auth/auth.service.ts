@@ -1,9 +1,9 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { userRepository } from '../users/user.repository';
-import { RegisterDtoType, LoginDtoType } from './auth.dto';
-import { CustomError } from '../shared/errors/custom-error';
-import { UserRole } from '@prisma/client';
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { userRepository } from "../users/user.repository";
+import { RegisterDtoType, LoginDtoType } from "./auth.dto";
+import { CustomError } from "../shared/errors/custom-error";
+import { UserRole } from "@prisma/client";
 
 export class AuthService {
   async register(data: RegisterDtoType) {
@@ -11,7 +11,7 @@ export class AuthService {
 
     const existingUser = await userRepository.findByEmail(email);
     if (existingUser) {
-      throw new CustomError(409, 'User with this email already exists');
+      throw new CustomError(409, "User with this email already exists");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -32,20 +32,18 @@ export class AuthService {
 
     const user = await userRepository.findByEmail(email);
     if (!user) {
-      throw new CustomError(401, 'Invalid email or password');
+      throw new CustomError(401, "Invalid email or password");
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new CustomError(401, 'Invalid email or password');
+      throw new CustomError(401, "Invalid email or password");
     }
 
     const secret = process.env.JWT_SECRET!;
-    const token = jwt.sign(
-      { id: user.id, role: user.role },
-      secret,
-      { expiresIn: '1d' }
-    );
+    const token = jwt.sign({ id: user.id, role: user.role }, secret, {
+      expiresIn: "1d",
+    });
 
     return { token };
   }
