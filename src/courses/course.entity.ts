@@ -1,8 +1,8 @@
-import { BaseEntity } from '../shared/repositories/base.repository';
+import { BaseEntity } from "../shared/repositories/base.repository";
 
 export interface Course extends BaseEntity {
   title: string;
   description: string;
-  image?: string;
+  image?: string | null;
   createdById: string; // ID of the user (COACH or ADMIN) who created it
 }

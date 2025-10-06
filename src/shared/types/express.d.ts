@@ -1,7 +1,8 @@
+import { UserRole } from "@prisma/client";
 
 export interface JwtPayload {
   id: string;
-  role: string;
+  role: UserRole;
 }
 
 declare global {

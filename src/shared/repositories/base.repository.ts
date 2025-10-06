@@ -1,68 +1,70 @@
+﻿import { prisma } from "../database/prisma";
+
 export interface BaseEntity {
   id: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
+export abstract class PrismaRepository<T extends BaseEntity> {
+  protected abstract model: any;
 
-import { randomUUID } from 'crypto'; 
-
-export class GenericRepository<T extends BaseEntity> {
- 
-  protected readonly items: T[] = [];
-
-  // Find all items
-  findAll(): T[] {
-    return this.items;
+  async findAll(): Promise<T[]> {
+    return await this.model.findMany();
   }
 
-  // Find an item by its ID
-  findById(id: string): T | undefined {
-    return this.items.find(item => item.id === id);
+  async findById(id: string): Promise<T | null> {
+    return await this.model.findUnique({
+      where: { id },
+    });
   }
 
-  // Create a new item
-  create(item: Omit<T, 'id' | 'createdAt' | 'updatedAt'>): T {
-    const newItem = {
-      id: randomUUID(), // Generate a unique ID
-      ...item,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    } as T;
-
-    this.items.push(newItem);
-    return newItem;
+  async create(data: Omit<T, "id" | "createdAt" | "updatedAt">): Promise<T> {
+    return await this.model.create({
+      data,
+    });
   }
 
-  // Update an existing item by its ID
-  update(id: string, item: Partial<Omit<T, 'id' | 'createdAt'>>): T | undefined {
-    const itemIndex = this.items.findIndex(i => i.id === id);
-
-    if (itemIndex === -1) {
-      return undefined; // Item not found
+  async update(
+    id: string,
+    data: Partial<Omit<T, "id" | "createdAt">>
+  ): Promise<T | null> {
+    try {
+      return await this.model.update({
+        where: { id },
+        data,
+      });
+    } catch (error) {
+      return null;
     }
-
-    const existingItem = this.items[itemIndex];
-
-    const updatedItem = {
-      ...existingItem,
-      ...item,
-      updatedAt: new Date(),
-    } as T;
-
-    this.items[itemIndex] = updatedItem;
-    return updatedItem;
   }
 
-  // Delete an item by its ID
-  delete(id: string): boolean {
-    const itemIndex = this.items.findIndex(i => i.id === id);
-
-    if (itemIndex === -1) {
-      return false; 
+  async delete(id: string): Promise<boolean> {
+    try {
+      await this.model.delete({
+        where: { id },
+      });
+      return true;
+    } catch (error) {
+      return false;
     }
+  }
 
-    this.items.splice(itemIndex, 1); 
-    return true;
+  async findWhere(where: any): Promise<T[]> {
+    return await this.model.findMany({
+      where,
+    });
+  }
+
+  async findFirst(where: any): Promise<T | null> {
+    return await this.model.findFirst({
+      where,
+    });
+  }
+
+  async count(where?: any): Promise<number> {
+    return await this.model.count({
+      where,
+    });
   }
 }
